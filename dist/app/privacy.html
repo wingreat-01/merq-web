@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Merq POS</title>
+<style>
+  :root{
+    --ink:#1E2126;
+    --muted:#5b6068;
+    --line:#e6e3db;
+    --accent:#FFB020;
+    --bg:#FBFAF7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:56px 24px 96px;
+  }
+  a{ color:#B4750E; }
+  a:hover{ color:var(--accent); }
+  h1{
+    font-size:28px;
+    margin:0 0 6px;
+  }
+  .updated{
+    color:var(--muted);
+    font-size:14px;
+    margin:0 0 40px;
+  }
+  h2{
+    font-size:18px;
+    margin:36px 0 10px;
+    padding-top:8px;
+    border-top:1px solid var(--line);
+  }
+  h2:first-of-type{ border-top:none; padding-top:0; }
+  p, li{
+    font-size:15px;
+    color:#2c3038;
+  }
+  ul{ padding-left:20px; }
+  li{ margin-bottom:6px; }
+  .contact-box{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-top:8px;
+  }
+  footer{
+    margin-top:56px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Merq POS — Last updated September 11, 2026</p>
+
+    <p>Merq POS ("Merq", "the app", "we", "us") is developed and operated by ProHubApps. This policy explains what information the app collects, how it's used, and who it's shared with. It applies to the Merq POS mobile and web app.</p>
+
+    <h2>Who this policy covers</h2>
+    <p>Merq POS is a point-of-sale app for small business owners. It has two kinds of users: <strong>store owners</strong>, who create an account and manage a store, and <strong>staff</strong>, who are added by an owner and sign in with a PIN inside that owner's store. This policy covers both.</p>
+
+    <h2>Information we collect</h2>
+    <p><strong>Account information (store owners).</strong> When you create a store, we collect the email address and password you sign up with, and the store name you choose. Your password is handled entirely by our backend provider, Supabase, using industry-standard hashing — we never see or store your plain-text password.</p>
+    <p><strong>Staff PINs.</strong> When an owner adds a staff member, that staff member's PIN is stored as a one-way cryptographic hash, not in plain text. PINs are used only to let staff sign in to their owner's store and are never shared outside the app.</p>
+    <p><strong>Business data you enter.</strong> Products, inventory levels, categories, transactions, and sales records you create while using the app are stored so the app can function — this is the core data the POS system runs on.</p>
+    <p><strong>Product photos.</strong> If you attach a photo to a product, the app requests access to your device's camera or photo library to let you pick or take that image. Photos are only used for the product listing you attach them to.</p>
+    <p><strong>AI Assistant messages.</strong> If you use the in-app AI Assistant, the text you send and the business data needed to answer your question (e.g. sales figures, stock levels) are sent to our backend, which forwards them to a third-party AI provider to generate a reply. See "Third-party services" below.</p>
+    <p><strong>Information stored only on your device.</strong> The app keeps a local cache of your AI Assistant conversation history and some app preferences on your device using standard local storage. This data is not something we collect on our servers unless you send it as part of an AI Assistant message.</p>
+    <p><strong>Connection status.</strong> The app checks whether your device is online or offline so it can queue actions while offline and sync later. This check happens on-device and is not transmitted anywhere.</p>
+
+    <h2>How we use this information</h2>
+    <ul>
+      <li>To create and secure your account and let staff sign in under it</li>
+      <li>To operate the core POS features: recording sales, tracking inventory, generating reports</li>
+      <li>To respond to AI Assistant requests you initiate</li>
+      <li>To provide customer support when you contact us</li>
+      <li>To keep the service secure and diagnose technical problems</li>
+    </ul>
+    <p>We do not sell your data, and we do not use your business data or account information for advertising.</p>
+
+    <h2>Third-party services</h2>
+    <p>Merq POS relies on the following third parties to operate:</p>
+    <ul>
+      <li><strong>Supabase</strong> — our backend provider. Supabase hosts our database, handles account authentication, and stores uploaded product photos. Supabase's own privacy practices apply to data while it's on their infrastructure.</li>
+      <li><strong>AI providers</strong> — when you use the AI Assistant, your message and relevant business data are sent to one of the following providers to generate a response: Groq, Mistral, Google Gemini, OpenRouter, DeepSeek, or OpenAI. Only one provider is used per request. These providers process the request text but are not given ongoing access to your account.</li>
+    </ul>
+    <p>We don't control these providers' own data practices; if you'd like details on how a specific provider handles data, we recommend checking that provider's own privacy policy.</p>
+
+    <h2>Data retention and deletion</h2>
+    <p>We keep your account and business data for as long as your account is active. If you'd like your account and associated data deleted, contact us at the email below and we'll process the request.</p>
+
+    <h2>Children's privacy</h2>
+    <p>Merq POS is a business tool and is not directed at children. We don't knowingly collect information from children under 13.</p>
+
+    <h2>Your choices</h2>
+    <ul>
+      <li>You can review and edit most of your business data (products, store details) directly in the app.</li>
+      <li>You can request a copy of your data, a correction, or full deletion by contacting us.</li>
+      <li>You can decline camera/photo permissions — product photos are optional and the app works without them.</li>
+    </ul>
+
+    <h2>Changes to this policy</h2>
+    <p>If this policy changes, we'll update the "Last updated" date at the top of this page. Continued use of the app after a change means you accept the updated policy.</p>
+
+    <h2>Contact us</h2>
+    <div class="contact-box">
+      <p style="margin:0 0 4px;"><strong>ProHubApps</strong></p>
+      <p style="margin:0;">Email: <a href="mailto:merq@prohubapps.com">merq@prohubapps.com</a></p>
+    </div>
+
+    <footer>
+      &copy; 2026 ProHubApps. This policy applies to the Merq POS app and merq.prohubapps.com.
+    </footer>
+  </div>
+</body>
+</html>

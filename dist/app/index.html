@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERQ: Point of sale, built like a till</title>
+<meta name="description" content="MERQ is a point-of-sale app built for Philippine small businesses: real peso bills, built-in Senior/PWD discounts, and a cart that never loses a sale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #10131a;
+    --slate: #1a1f28;
+    --slate-2: #20262f;
+    --border: #2b323d;
+    --amber: #ffb020;
+    --amber-dim: rgba(255, 176, 32, 0.12);
+    --green: #3ecf8e;
+    --green-dim: rgba(62, 207, 142, 0.12);
+    --red: #ff6161;
+    --red-dim: rgba(255, 97, 97, 0.12);
+    --text-primary: #f3f5f8;
+    --text-secondary: #a7afbd;
+    --text-muted: #6b7280;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --max-w: 1120px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--charcoal);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg { display: block; max-width: 100%; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  p { color: var(--text-secondary); max-width: 62ch; }
+
+  /* ---------- Nav ---------- */
+  header.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(16, 19, 26, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+  }
+
+  .wordmark {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .wordmark .dot { color: var(--amber); }
+
+  nav.links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  nav.links a.nav-link {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  nav.links a.nav-link:hover { color: var(--text-primary); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 14.5px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--amber); color: #201400; }
+  .btn-primary:hover { background: #ffc04d; }
+  .btn-outline { background: transparent; color: var(--text-primary); border-color: var(--border); }
+  .btn-outline:hover { border-color: var(--text-secondary); }
+  .btn-sm { padding: 8px 14px; font-size: 13px; }
+
+  .nav-cta { display: flex; gap: 10px; align-items: center; }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    color: var(--text-primary);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 88px 0 96px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .eyebrow-note {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--amber);
+    letter-spacing: 0.5px;
+    margin: 0 0 18px;
+  }
+  h1 {
+    font-family: var(--font-mono);
+    font-size: 44px;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    margin: 0 0 20px;
+    max-width: 15ch;
+  }
+  .hero-sub {
+    font-size: 17px;
+    max-width: 46ch;
+    margin-bottom: 32px;
+  }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+  .hero-note {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ---------- Till mockup ---------- */
+  .till-frame {
+    background: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55);
+  }
+  .till-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .till-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.6px;
+    color: var(--text-secondary);
+    font-weight: 700;
+  }
+  .till-close {
+    width: 22px; height: 22px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .till-total-panel {
+    background: #0d1016;
+    border-radius: 12px;
+    padding: 18px 18px 16px;
+    margin-bottom: 18px;
+  }
+  .till-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 1.6px;
+    color: var(--text-muted);
+    text-align: right;
+    margin: 0 0 6px;
+  }
+  .till-amount {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--amber);
+    text-align: right;
+    text-shadow: 0 0 18px rgba(255, 176, 32, 0.35);
+  }
+  .till-sub-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 1.6px;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+  .till-methods {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .till-chip {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    background: var(--slate-2);
+  }
+  .till-chip.active {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: var(--amber-dim);
+  }
+  .till-input {
+    background: var(--slate-2);
+    border: 1px solid var(--amber);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+  .till-quick {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .till-quick span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--slate-2);
+    color: var(--text-secondary);
+  }
+  .till-change-panel {
+    background: #0d1016;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+  }
+  .till-change-amount {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--green);
+    text-align: right;
+    text-shadow: 0 0 18px rgba(62, 207, 142, 0.3);
+  }
+  .till-confirm {
+    width: 100%;
+    background: var(--green);
+    color: #06251a;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+
+  /* ---------- Section shells ---------- */
+  section { padding: 88px 0; }
+  .section-head { margin-bottom: 48px; max-width: 56ch; }
+  .section-head h2 {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .section-head p { font-size: 16px; }
+
+  /* ---------- Features ---------- */
+  .feature-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .feature-row {
+    background: var(--slate);
+    padding: 28px;
+    display: flex;
+    gap: 16px;
+  }
+  .feature-mark {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--amber);
+    width: 26px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .feature-row h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .feature-row p { font-size: 14.5px; margin: 0; }
+
+  /* ---------- Differentiation ---------- */
+  .diff-panel {
+    background: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .diff-col { padding: 32px 32px; }
+  .diff-col.other { border-right: 1px solid var(--border); }
+  .diff-col-head {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 1.4px;
+    font-weight: 700;
+    margin: 0 0 20px;
+  }
+  .diff-col.other .diff-col-head { color: var(--text-muted); }
+  .diff-col.merq .diff-col-head { color: var(--amber); }
+  .diff-row {
+    display: flex;
+    gap: 10px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    font-size: 14.5px;
+  }
+  .diff-col-head + .diff-row { border-top: none; }
+  .diff-col.other .diff-row { color: var(--text-muted); }
+  .diff-col.merq .diff-row { color: var(--text-primary); }
+  .diff-mark { flex-shrink: 0; font-family: var(--font-mono); font-weight: 700; }
+  .diff-col.other .diff-mark { color: var(--red); }
+  .diff-col.merq .diff-mark { color: var(--green); }
+
+  /* ---------- PIA (AI assistant) ---------- */
+  .pia {
+    background: var(--slate);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .pia-grid {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .pia-list {
+    list-style: none;
+    margin: 26px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .pia-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    color: var(--text-secondary);
+  }
+  .pia-list strong { color: var(--text-primary); }
+  .pia-mark {
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .chat-mock {
+    background: var(--slate-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .chat-mock .cm-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .chat-mock .cm-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); }
+  .chat-mock .cm-title {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+  }
+  .cm-row { display: flex; margin-bottom: 12px; }
+  .cm-row.me { justify-content: flex-end; }
+  .cm-bubble { max-width: 82%; padding: 11px 15px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; }
+  .cm-row.me .cm-bubble { background: var(--amber); color: #201400; border-bottom-right-radius: 3px; }
+  .cm-row.them .cm-bubble {
+    background: var(--slate);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 3px;
+  }
+
+  /* ---------- Pricing ---------- */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .plan-card {
+    background: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+  }
+  .plan-card.trial {
+    border-color: var(--amber);
+    background: linear-gradient(180deg, var(--amber-dim), var(--slate) 60%);
+  }
+  .plan-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--amber);
+    background: var(--amber-dim);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+  .plan-name { font-size: 16px; font-weight: 700; margin: 0 0 6px; }
+  .plan-price {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 2px;
+  }
+  .plan-price-note { font-size: 12.5px; color: var(--text-muted); margin-bottom: 20px; }
+  .plan-features { list-style: none; padding: 0; margin: 0 0 22px; flex-grow: 1; }
+  .plan-features li {
+    display: flex;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+  }
+  .plan-features li .tick { color: var(--green); flex-shrink: 0; }
+  .plan-footnote { font-size: 12px; color: var(--text-muted); margin: 0; }
+
+  /* ---------- Final CTA ---------- */
+  .cta-band {
+    background: var(--slate);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 80px 0;
+  }
+  .cta-band h2 {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    max-width: 20ch;
+    margin: 0 auto 16px;
+  }
+  .cta-band p { max-width: 46ch; margin: 0 auto 32px; }
+  .cta-band .hero-ctas { justify-content: center; }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 48px 0; }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13.5px; color: var(--text-muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--text-secondary); }
+  .footer-copy { font-size: 13px; color: var(--text-muted); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 34px; max-width: none; }
+    .feature-list { grid-template-columns: 1fr; }
+    .diff-grid { grid-template-columns: 1fr; }
+    .diff-col.other { border-right: none; border-bottom: 1px solid var(--border); }
+    .pia-grid { grid-template-columns: 1fr; }
+    .chat-mock { order: -1; }
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    nav.links, .nav-cta .btn-outline { display: none; }
+    .menu-toggle { display: flex; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+    .hero { padding: 56px 0 64px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="wordmark">MERQ<span class="dot">.</span></a>
+    <nav class="links">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#pia">PIA</a>
+      <a class="nav-link" href="#pricing">Pricing</a>
+      <a class="nav-link" href="/app/">Log in</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="/app/" class="btn btn-outline btn-sm">Log in</a>
+      <a href="#pricing" class="btn btn-primary btn-sm">Get MERQ free</a>
+    </div>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow-note">POINT OF SALE FOR PHILIPPINE SMALL BUSINESSES</p>
+        <h1>Point of sale, built like a till.</h1>
+        <p class="hero-sub">
+          MERQ runs your counter the way a cash drawer should: real peso bills,
+          exact change, and a discount law it actually gets right. Online or not.
+        </p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary">Get MERQ free for 15 days</a>
+          <a href="/app/" class="btn btn-outline">Open web app</a>
+        </div>
+        <p class="hero-note">No card required to start. Cancel the trial any time.</p>
+      </div>
+
+      <div class="till-frame">
+        <div class="till-header">
+          <span class="till-title">CHECKOUT</span>
+          <span class="till-close">×</span>
+        </div>
+        <div class="till-total-panel">
+          <p class="till-label">TOTAL DUE</p>
+          <p class="till-amount" id="tillAmount">₱0.00</p>
+        </div>
+        <p class="till-sub-label">PAYMENT METHOD</p>
+        <div class="till-methods">
+          <span class="till-chip active">Cash</span>
+          <span class="till-chip">GCash</span>
+          <span class="till-chip">Maya</span>
+          <span class="till-chip">Bank Transfer</span>
+        </div>
+        <p class="till-sub-label">CASH TENDERED</p>
+        <div class="till-input"><span>₱</span><span>300.00</span></div>
+        <div class="till-quick">
+          <span>Exact</span><span>+₱300</span><span>+₱500</span><span>+₱1000</span>
+        </div>
+        <div class="till-change-panel">
+          <p class="till-label">CHANGE</p>
+          <p class="till-change-amount" id="tillChange">₱0.00</p>
+        </div>
+        <button class="till-confirm">Confirm payment</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Built for how a real counter runs</h2>
+        <p>Every feature below came out of an actual checkout line, not a feature request board.</p>
+      </div>
+      <div class="feature-list">
+        <div class="feature-row">
+          <span class="feature-mark">01</span>
+          <div>
+            <h3>Real bills, not textbook rounding</h3>
+            <p>Quick-cash suggestions are built from the bills your cashiers actually carry, not round numbers a spreadsheet would guess. In the Philippines, that means real peso notes: ₱50, ₱100, ₱500, ₱1000.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-mark">02</span>
+          <div>
+            <h3>Cash, GCash, Maya, or bank transfer</h3>
+            <p>Every payment method your customers already use, on the same till, with the same receipt.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-mark">03</span>
+          <div>
+            <h3>Senior Citizen / PWD discounts, done right</h3>
+            <p>RA 9994 and RA 10754 math (VAT removed first, then 20% off what's left) with the name and ID capture the law requires. No manual override, no guessing.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-mark">04</span>
+          <div>
+            <h3>Never lose a sale to a bad connection</h3>
+            <p>Every cart is saved the moment it's touched. If the app closes or the signal drops mid-sale, nothing is lost: it queues and syncs the second you're back online.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-mark">05</span>
+          <div>
+            <h3>One login, many cashiers</h3>
+            <p>Staff clock in with a name and a PIN: no separate account to create for every employee, no shared password written on a sticky note.</p>
+          </div>
+        </div>
+        <div class="feature-row">
+          <span class="feature-mark">06</span>
+          <div>
+            <h3>An assistant that knows your store</h3>
+            <p>Ask what sold today or what's running low, right from the app, with no separate report to pull.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="different">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Not a generic register with a peso sign added</h2>
+        <p>Most POS apps are built once and localized after the fact. MERQ started from a Philippine counter.</p>
+      </div>
+      <div class="diff-panel">
+        <div class="diff-grid">
+          <div class="diff-col other">
+            <p class="diff-col-head">MOST POS APPS</p>
+            <div class="diff-row"><span class="diff-mark">–</span><span>Suggest change in round hundreds that don't match real bills</span></div>
+            <div class="diff-row"><span class="diff-mark">–</span><span>Treat Senior/PWD discounts as a manual override the cashier calculates</span></div>
+            <div class="diff-row"><span class="diff-mark">–</span><span>Lose the cart if the app crashes or the connection drops</span></div>
+            <div class="diff-row"><span class="diff-mark">–</span><span>Need a separate paid account for every staff member</span></div>
+          </div>
+          <div class="diff-col merq">
+            <p class="diff-col-head">MERQ</p>
+            <div class="diff-row"><span class="diff-mark">✓</span><span>Suggests the actual bills in circulation today</span></div>
+            <div class="diff-row"><span class="diff-mark">✓</span><span>Calculates RA 9994 / RA 10754 discounts automatically, every time</span></div>
+            <div class="diff-row"><span class="diff-mark">✓</span><span>Saves the cart on every change, so a crash or dead signal loses nothing</span></div>
+            <div class="diff-row"><span class="diff-mark">✓</span><span>Staff sign in with a name and PIN, in seconds, on the owner's plan</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pia" id="pia">
+    <div class="wrap pia-grid">
+      <div>
+        <div class="section-head" style="margin-bottom: 0;">
+          <p class="eyebrow-note">BUILT IN, NOT BOLTED ON</p>
+          <h2>Meet PIA, your point-of-sale intelligent assistant.</h2>
+          <p>PIA isn't a generic chatbot pasted on top. It reads your actual sales, stock, and staff records, so you get a real answer instead of a report to dig through yourself.</p>
+        </div>
+        <ul class="pia-list">
+          <li><span class="pia-mark">✓</span><span><strong>Ask in plain language.</strong> "What sold best today?" No filters, no report to run.</span></li>
+          <li><span class="pia-mark">✓</span><span><strong>Knows your store.</strong> PIA looks up your live sales, stock, and staff records to answer, not a guess.</span></li>
+          <li><span class="pia-mark">✓</span><span><strong>Always on.</strong> Backed by more than one AI provider, so a single outage never leaves you without an answer.</span></li>
+          <li><span class="pia-mark">✓</span><span><strong>Wherever you're working.</strong> Right from Settings, on your phone or the web app.</span></li>
+          <li><span class="pia-mark">✓</span><span><strong>Included on every plan,</strong> with more monthly credits as you move up in tier.</span></li>
+        </ul>
+      </div>
+      <div class="chat-mock">
+        <div class="cm-head"><span class="cm-dot"></span><span class="cm-title">PIA</span></div>
+        <div class="cm-row me"><div class="cm-bubble">What sold best today?</div></div>
+        <div class="cm-row them"><div class="cm-bubble">Iced Coffee (Large) led today with 42 sold, ₱3,360 in sales. Bottled Water is your next best mover.</div></div>
+        <div class="cm-row me"><div class="cm-bubble">Anything running low?</div></div>
+        <div class="cm-row them"><div class="cm-bubble">Yes, Milk Tea Powder is down to 2 units left based on today's usage.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>One plan for one register, priced for a small counter</h2>
+        <p>Start on the trial, switch plans as your store grows. No setup fee, no lock-in.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan-card trial">
+          <span class="plan-badge">START HERE</span>
+          <p class="plan-name">Free Trial</p>
+          <p class="plan-price">₱0</p>
+          <p class="plan-price-note">for 15 days</p>
+          <ul class="plan-features">
+            <li><span class="tick">✓</span>Everything in Pro, on us for 15 days</li>
+            <li><span class="tick">✓</span>Unlimited staff accounts</li>
+            <li><span class="tick">✓</span>Unlimited transaction history</li>
+            <li><span class="tick">✓</span>10 AI assistant credits / month</li>
+            <li><span class="tick">✓</span>Unlimited products</li>
+          </ul>
+          <p class="plan-footnote">One-time trial. Pick Starter, Basic, or Pro once it ends.</p>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Starter</p>
+          <p class="plan-price">₱190/mo</p>
+          <p class="plan-price-note">or ₱1,900/yr</p>
+          <ul class="plan-features">
+            <li><span class="tick">✓</span>1 staff account</li>
+            <li><span class="tick">✓</span>30 days transaction history</li>
+            <li><span class="tick">✓</span>30 AI assistant credits / month</li>
+            <li><span class="tick">✓</span>Up to 10 products</li>
+          </ul>
+          <a href="/app/" class="btn btn-outline" style="width:100%">Choose Starter</a>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Basic</p>
+          <p class="plan-price">₱290/mo</p>
+          <p class="plan-price-note">or ₱2,900/yr</p>
+          <ul class="plan-features">
+            <li><span class="tick">✓</span>5 staff accounts</li>
+            <li><span class="tick">✓</span>90 days transaction history</li>
+            <li><span class="tick">✓</span>50 AI assistant credits / month</li>
+            <li><span class="tick">✓</span>Up to 30 products</li>
+          </ul>
+          <a href="/app/" class="btn btn-outline" style="width:100%">Choose Basic</a>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Pro</p>
+          <p class="plan-price">₱490/mo</p>
+          <p class="plan-price-note">or ₱4,900/yr</p>
+          <ul class="plan-features">
+            <li><span class="tick">✓</span>Unlimited staff accounts</li>
+            <li><span class="tick">✓</span>Unlimited transaction history</li>
+            <li><span class="tick">✓</span>100 AI assistant credits / month</li>
+            <li><span class="tick">✓</span>Unlimited products</li>
+            <li><span class="tick">✓</span>Priority support</li>
+          </ul>
+          <a href="/app/" class="btn btn-outline" style="width:100%">Choose Pro</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <div class="wrap">
+      <h2>Your counter is waiting.</h2>
+      <p>Set up MERQ in a few minutes, on your phone or right here in the browser.</p>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn btn-primary">Get MERQ free for 15 days</a>
+        <a href="/app/" class="btn btn-outline">Access your account</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <a href="#" class="wordmark" style="font-size:15px;">MERQ<span class="dot">.</span></a>
+    <div class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#pia">PIA</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/app/">Log in</a>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> MERQ. Made for Philippine counters.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu: reveals nav links + log-in as a simple stacked panel.
+  const toggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('nav.links');
+  toggle.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display = open ? 'none' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '64px';
+    navLinks.style.left = '0';
+    navLinks.style.right = '0';
+    navLinks.style.background = 'var(--slate)';
+    navLinks.style.padding = '16px 24px';
+    navLinks.style.borderBottom = '1px solid var(--border)';
+    navLinks.style.gap = '14px';
+  });
+
+  // Single orchestrated reveal: the hero till mockup counts up to the
+  // total and change once on load, mirroring what actually happens
+  // when a cashier types in a tendered amount. Skipped entirely if
+  // the visitor prefers reduced motion.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const amountEl = document.getElementById('tillAmount');
+  const changeEl = document.getElementById('tillChange');
+
+  function animateValue(el, target, duration) {
+    if (prefersReducedMotion) {
+      el.textContent = '₱' + target.toFixed(2);
+      return;
+    }
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = target * eased;
+      el.textContent = '₱' + value.toFixed(2);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('load', () => {
+    animateValue(amountEl, 220.00, 700);
+    setTimeout(() => animateValue(changeEl, 80.00, 500), 750);
+  });
+</script>
+
+</body>
+</html>
