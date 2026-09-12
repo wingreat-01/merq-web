@@ -591,6 +591,21 @@
 .pia-section{background:linear-gradient(180deg,rgba(217,164,65,.035),transparent)}.pia-screen{padding:25px;min-height:390px}.chat-label{font-size:10px;letter-spacing:.14em;color:#d9a441;font-weight:800;margin-bottom:25px}.chat{max-width:86%;margin:14px 0;padding:12px 15px;border-radius:9px;background:rgba(255,255,255,.055)}.chat.user{margin-left:auto}.chat.pia{border-left:2px solid #d9a441}.chat span{font-size:9px;font-weight:800;opacity:.45}.chat p{font-size:13px!important;line-height:1.5!important;margin:4px 0 0!important;opacity:.85!important}.check-list{list-style:none;padding:0;margin:30px 0}.check-list li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px}.check-list li:before{content:"✓";color:#d9a441;margin-right:12px;font-weight:800}
 .ph-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:45px}.ph-grid>div{border:1px solid rgba(255,255,255,.08);padding:25px;border-radius:10px}.ph-grid strong{display:block;color:#d9a441;font-size:25px;margin-bottom:15px}.ph-grid span{font-size:13px;line-height:1.6;opacity:.65}
 .pricing-section{background:#0d0d0d}.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:auto}.price-card{position:relative;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:30px;background:rgba(255,255,255,.02)}.price-card.featured{border-color:rgba(217,164,65,.65);box-shadow:0 15px 60px rgba(217,164,65,.06)}.popular{position:absolute;right:18px;top:18px;color:#d9a441;font-size:9px;font-weight:900;letter-spacing:.12em}.price-name{font-size:11px;font-weight:900;letter-spacing:.16em;opacity:.65}.price{font-size:50px;font-weight:900;letter-spacing:-.04em;margin-top:18px}.price span{font-size:24px;color:#d9a441}.price small{font-size:14px;opacity:.45}.annual{font-size:12px!important;opacity:.45!important;margin-top:-5px}.price-card ul{list-style:none;padding:0;margin:28px 0;min-height:165px}.price-card li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}.price-card li:before{content:"✓";color:#d9a441;margin-right:9px}.full{width:100%;box-sizing:border-box}.trial-note{max-width:1100px;margin:18px auto 0;border:1px solid rgba(217,164,65,.2);padding:18px 22px;border-radius:9px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13px}.trial-note strong{color:#d9a441}.trial-note span{opacity:.55}.trial-note a{margin-left:auto;color:#d9a441;font-weight:800;text-decoration:none}.final-cta{display:flex;align-items:center;justify-content:space-between;gap:30px;border-top:1px solid rgba(255,255,255,.07)}
+.currency-switcher{position:relative;font-size:12px}
+.currency-toggle{background:transparent;border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:6px;padding:7px 10px;font-size:12px;font-family:inherit;letter-spacing:.02em;cursor:pointer;display:flex;align-items:center;gap:6px;opacity:.85;transition:opacity .15s,border-color .15s}
+.currency-toggle:hover{opacity:1;border-color:rgba(217,164,65,.5)}
+.currency-toggle .chev{font-size:9px;opacity:.6}
+.currency-menu{position:absolute;top:calc(100% + 6px);right:0;background:#141414;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px;list-style:none;margin:0;min-width:100px;z-index:80;box-shadow:0 15px 40px rgba(0,0,0,.45)}
+.currency-menu[hidden]{display:none}
+.currency-menu li{padding:8px 10px;font-size:12px;border-radius:5px;cursor:pointer;opacity:.75;white-space:nowrap}
+.currency-menu li:hover{background:rgba(217,164,65,.12);opacity:1;color:#d9a441}
+.currency-menu li[aria-selected="true"]{color:#d9a441;opacity:1;font-weight:700}
+.footer-currency{display:flex;align-items:center;gap:8px;font-size:12px;opacity:.55;margin-top:10px}
+.footer-currency button{background:none;border:none;color:inherit;font:inherit;padding:0;cursor:pointer;opacity:.7;letter-spacing:.02em}
+.footer-currency button:hover{opacity:1}
+.footer-currency button.active{opacity:1;color:#d9a441;font-weight:700}
+.footer-currency span{opacity:.3}
+@media(max-width:640px){.currency-switcher.header-switcher{display:none}}
 @media(max-width:900px){.hero,.split{grid-template-columns:1fr;gap:45px}.feature-grid{grid-template-columns:repeat(2,1fr)}.metrics-grid{grid-template-columns:repeat(2,1fr)}.ph-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;max-width:520px}.final-cta{display:block}.final-cta .btn{margin-top:25px}}
 @media(max-width:600px){.hero{padding-top:60px;min-height:auto}.hero-copy h1{font-size:58px}.lede{font-size:17px}.feature-grid,.metrics-grid,.ph-grid{grid-template-columns:1fr}.section{padding:70px 6vw}.trust-row{display:block}.trust-row span{display:block;margin:7px 0}.mock-body{padding:20px}.trial-note{display:block}.trial-note>*{display:block;margin:7px 0}.trial-note a{margin-left:0}.price-card ul{min-height:0}}
 </style><style>
@@ -607,6 +622,17 @@
 <a class="nav-link" href="/app/">Log in</a>
 </nav>
 <div class="nav-cta">
+<div class="currency-switcher header-switcher" id="currencySwitcher">
+<button aria-expanded="false" aria-haspopup="listbox" class="currency-toggle" id="currencyToggle" type="button">
+<span id="currencyToggleLabel">$ USD</span><span class="chev">▾</span>
+</button>
+<ul class="currency-menu" hidden="" id="currencyMenu" role="listbox">
+<li data-currency="USD" role="option">$ USD</li>
+<li data-currency="PHP" role="option">₱ PHP</li>
+<li data-currency="EUR" role="option">€ EUR</li>
+<li data-currency="AUD" role="option">A$ AUD</li>
+</ul>
+</div>
 <a class="btn btn-outline btn-sm" href="/app/">Log in</a>
 <a class="btn btn-primary btn-sm" href="#pricing">Get MERQ free</a>
 </div>
@@ -762,8 +788,8 @@
 <div class="pricing-grid">
 <article class="price-card">
 <div class="price-name">STARTER</div>
-<div class="price"><span>₱</span>190<small>/mo</small></div>
-<p class="annual">₱1,900/year</p>
+<div class="price" data-php="190"><span class="cur-symbol">₱</span><span class="cur-amount">190</span><small>/mo</small></div>
+<p class="annual" data-php="1900">₱1,900/year</p>
 <ul>
 <li>1 staff account</li>
 <li>30 days transaction history</li>
@@ -774,8 +800,8 @@
 </article>
 <article class="price-card">
 <div class="price-name">BASIC</div>
-<div class="price"><span>₱</span>290<small>/mo</small></div>
-<p class="annual">₱2,900/year</p>
+<div class="price" data-php="290"><span class="cur-symbol">₱</span><span class="cur-amount">290</span><small>/mo</small></div>
+<p class="annual" data-php="2900">₱2,900/year</p>
 <ul>
 <li>5 staff accounts</li>
 <li>90 days transaction history</li>
@@ -787,8 +813,8 @@
 <article class="price-card featured">
 <div class="popular">MOST CAPABLE</div>
 <div class="price-name">PRO</div>
-<div class="price"><span>₱</span>490<small>/mo</small></div>
-<p class="annual">₱4,900/year</p>
+<div class="price" data-php="490"><span class="cur-symbol">₱</span><span class="cur-amount">490</span><small>/mo</small></div>
+<p class="annual" data-php="4900">₱4,900/year</p>
 <ul>
 <li>Unlimited staff accounts</li>
 <li>Unlimited transaction history</li>
@@ -824,6 +850,15 @@
 <a href="/app/">Log in</a>
 </div>
 <p class="footer-copy">© <span id="year"></span> MERQ. Made for Philippine counters.</p>
+<div class="footer-currency" id="footerCurrency">
+<button data-currency="USD" type="button">$ USD</button>
+<span>·</span>
+<button data-currency="PHP" type="button">₱ PHP</button>
+<span>·</span>
+<button data-currency="EUR" type="button">€ EUR</button>
+<span>·</span>
+<button data-currency="AUD" type="button">A$ AUD</button>
+</div>
 </div>
 </footer>
 <script>
@@ -874,6 +909,128 @@
     animateValue(amountEl, 220.00, 700);
     setTimeout(() => animateValue(changeEl, 80.00, 500), 750);
   });
+
+  // --- Geolocation & multi-currency pricing --------------------------------
+  // Prices are authored in PHP (the real billing currency). Everything else
+  // is an approximate display conversion so visitors get a currency they
+  // recognize; actual charges still happen in PHP unless MERQ later wires up
+  // real localized billing.
+  const CURRENCY_CONFIG = {
+    PHP: { symbol: '₱', phpPerUnit: 1,  locale: 'en-PH', decimals: 0 },
+    USD: { symbol: '$', phpPerUnit: 56, locale: 'en-US', decimals: 2 },
+    EUR: { symbol: '€', phpPerUnit: 60, locale: 'de-DE', decimals: 2 },
+    AUD: { symbol: 'A$', phpPerUnit: 37, locale: 'en-AU', decimals: 2 }
+  };
+  const DEFAULT_CURRENCY = 'USD'; // global baseline for anyone outside PH
+  const STORAGE_KEY = 'merq_currency';
+  const EUROZONE = ['AT','BE','HR','CY','EE','FI','FR','DE','GR','IE','IT','LV','LT','LU','MT','NL','PT','SK','SI','ES'];
+
+  function countryToCurrency(countryCode) {
+    if (countryCode === 'PH') return 'PHP';
+    if (countryCode === 'AU') return 'AUD';
+    if (EUROZONE.includes(countryCode)) return 'EUR';
+    return DEFAULT_CURRENCY;
+  }
+
+  function formatAmount(phpValue, currency) {
+    const cfg = CURRENCY_CONFIG[currency];
+    const converted = phpValue / cfg.phpPerUnit;
+    return converted.toLocaleString(cfg.locale, {
+      minimumFractionDigits: cfg.decimals,
+      maximumFractionDigits: cfg.decimals
+    });
+  }
+
+  function applyCurrency(currency, persist) {
+    if (!CURRENCY_CONFIG[currency]) currency = DEFAULT_CURRENCY;
+    const cfg = CURRENCY_CONFIG[currency];
+
+    document.querySelectorAll('.price[data-php]').forEach(el => {
+      const symbolEl = el.querySelector('.cur-symbol');
+      const amountEl = el.querySelector('.cur-amount');
+      if (symbolEl) symbolEl.textContent = cfg.symbol;
+      if (amountEl) amountEl.textContent = formatAmount(parseFloat(el.dataset.php), currency);
+    });
+
+    document.querySelectorAll('.annual[data-php]').forEach(el => {
+      el.textContent = cfg.symbol + formatAmount(parseFloat(el.dataset.php), currency) + '/year';
+    });
+
+    const toggleLabel = document.getElementById('currencyToggleLabel');
+    if (toggleLabel) toggleLabel.textContent = cfg.symbol + ' ' + currency;
+
+    document.querySelectorAll('#currencyMenu li').forEach(li => {
+      li.setAttribute('aria-selected', li.dataset.currency === currency ? 'true' : 'false');
+    });
+    document.querySelectorAll('#footerCurrency button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.currency === currency);
+    });
+
+    if (persist) {
+      try { localStorage.setItem(STORAGE_KEY, currency); } catch (e) { /* storage unavailable */ }
+    }
+  }
+
+  async function detectCurrency() {
+    let saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* storage unavailable */ }
+    if (saved && CURRENCY_CONFIG[saved]) {
+      applyCurrency(saved, false);
+      return;
+    }
+
+    let currency = DEFAULT_CURRENCY;
+    try {
+      const resp = await fetch('https://ipapi.co/json/');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && data.country_code) currency = countryToCurrency(data.country_code);
+      } else {
+        throw new Error('geo lookup failed');
+      }
+    } catch (e) {
+      // Blocked by network/ad-blocker/CORS: fall back to timezone as a
+      // rough, privacy-friendly guess. Doesn't persist — it's a guess,
+      // not a choice, so it's re-evaluated on the next visit too.
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        if (tz === 'Asia/Manila') currency = 'PHP';
+        else if (tz.startsWith('Australia/')) currency = 'AUD';
+        else if (tz.startsWith('Europe/')) currency = 'EUR';
+      } catch (e2) { /* Intl unavailable */ }
+    }
+    applyCurrency(currency, false);
+  }
+
+  // Manual switcher: header dropdown
+  const currencyToggle = document.getElementById('currencyToggle');
+  const currencyMenu = document.getElementById('currencyMenu');
+  if (currencyToggle && currencyMenu) {
+    currencyToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = !currencyMenu.hidden;
+      currencyMenu.hidden = open;
+      currencyToggle.setAttribute('aria-expanded', String(!open));
+    });
+    currencyMenu.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', () => {
+        applyCurrency(li.dataset.currency, true);
+        currencyMenu.hidden = true;
+        currencyToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', () => {
+      currencyMenu.hidden = true;
+      currencyToggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  // Manual switcher: footer links
+  document.querySelectorAll('#footerCurrency button').forEach(btn => {
+    btn.addEventListener('click', () => applyCurrency(btn.dataset.currency, true));
+  });
+
+  detectCurrency();
 </script>
 </body>
 </html>
