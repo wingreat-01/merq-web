@@ -1,11 +1,11 @@
 {
-    "name": "MERQ POS",
-    "short_name": "MERQ",
+    "name": "kahapro_flutter",
+    "short_name": "kahapro_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#1E2126",
     "theme_color": "#FFB020",
-    "description": "MERQ Point of Sale.",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
