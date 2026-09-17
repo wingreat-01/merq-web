@@ -100,18 +100,38 @@
     <li>Payment methods and receipt settings</li>
   </ul>
 
-  <form action="mailto:merq@prohubapps.com" method="post" enctype="text/plain">
+  <form id="deleteAccountForm">
     <label for="email">Account email</label>
-    <input type="email" id="email" name="Account email" placeholder="you@example.com" required>
+    <input type="email" id="email" placeholder="you@example.com" required>
 
     <label for="store">Store name (as shown in the app)</label>
-    <input type="text" id="store" name="Store name" placeholder="e.g. Flynn's Coffee" required>
+    <input type="text" id="store" placeholder="e.g. Flynn's Coffee" required>
 
     <label for="notes">Anything else we should know? (optional)</label>
-    <textarea id="notes" name="Notes" placeholder="Optional"></textarea>
+    <textarea id="notes" placeholder="Optional"></textarea>
 
-    <button type="submit">Request account deletion</button>
+    <button type="button" id="submitBtn">Request account deletion</button>
   </form>
+
+  <script>
+    document.getElementById('submitBtn').addEventListener('click', function () {
+      var email = document.getElementById('email').value.trim();
+      var store = document.getElementById('store').value.trim();
+      var notes = document.getElementById('notes').value.trim();
+
+      if (!email || !store) {
+        alert('Please fill in your account email and store name.');
+        return;
+      }
+
+      var subject = encodeURIComponent('MERQ Account Deletion Request');
+      var body = encodeURIComponent(
+        'Account email=' + email + '\nStore name=' + store + '\nNotes=' + notes
+      );
+
+      window.location.href = 'mailto:merq@prohubapps.com?subject=' + subject + '&body=' + body;
+    });
+  </script>
 
   <p class="note">
     Submitting this form opens an email to merq@prohubapps.com with your request. We process deletion requests within 7 days and will confirm by email once your account and data have been removed. If your email client doesn't open automatically, email us directly at
