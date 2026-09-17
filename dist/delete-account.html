@@ -73,16 +73,20 @@
     cursor: pointer;
   }
   button:hover { background: #c94747; }
+  button:disabled { background: #6e3d3d; cursor: not-allowed; }
   .note { font-size: 12.5px; color: var(--text-muted); margin-top: 16px; }
   .footer { margin-top: 40px; font-size: 12.5px; color: var(--text-muted); }
   .footer a { color: var(--amber); text-decoration: none; }
+  .status { font-size: 14px; margin-top: 14px; display: none; }
+  .status.success { color: #7fd99a; }
+  .status.error { color: var(--red); }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="brand">MERQ POS</div>
   <h1>Delete your account</h1>
-  <p>Use this form to request permanent deletion of your MERQ POS account and store data, without needing to open the app.</p>
+  <p>Enter your account details below. We'll email a confirmation link to your account's email address — clicking it permanently deletes your account and store data. Works the same on mobile or desktop.</p>
 
   <div class="warning">
     <div>
@@ -107,40 +111,65 @@
     <label for="store">Store name (as shown in the app)</label>
     <input type="text" id="store" placeholder="e.g. Flynn's Coffee" required>
 
-    <label for="notes">Anything else we should know? (optional)</label>
-    <textarea id="notes" placeholder="Optional"></textarea>
-
-    <button type="button" id="submitBtn">Request account deletion</button>
+    <button type="button" id="submitBtn">Send deletion confirmation link</button>
+    <p class="status" id="statusText"></p>
   </form>
 
-  <script>
-    document.getElementById('submitBtn').addEventListener('click', function () {
-      var email = document.getElementById('email').value.trim();
-      var store = document.getElementById('store').value.trim();
-      var notes = document.getElementById('notes').value.trim();
-
-      if (!email || !store) {
-        alert('Please fill in your account email and store name.');
-        return;
-      }
-
-      var subject = encodeURIComponent('MERQ Account Deletion Request');
-      var body = encodeURIComponent(
-        'Account email=' + email + '\nStore name=' + store + '\nNotes=' + notes
-      );
-
-      window.location.href = 'mailto:merq@prohubapps.com?subject=' + subject + '&body=' + body;
-    });
-  </script>
-
   <p class="note">
-    Submitting this form opens an email to merq@prohubapps.com with your request. We process deletion requests within 7 days and will confirm by email once your account and data have been removed. If your email client doesn't open automatically, email us directly at
-    <a href="mailto:merq@prohubapps.com" style="color: var(--amber)">merq@prohubapps.com</a> with the same details.
+    Submitting this sends a confirmation link to your account's email — nothing is deleted until you click it. The link expires in 1 hour. If you don't see it, check spam, or email us directly at
+    <a href="mailto:merq@prohubapps.com" style="color: var(--amber)">merq@prohubapps.com</a>.
   </p>
 
   <div class="footer">
     <a href="/privacy.html">Privacy Policy</a> · © 2026 ProHubApps
   </div>
 </div>
+
+<script>
+  // Replace with your actual Supabase project's function URL.
+  const ENDPOINT = "https://uykrnoxlzlvjtazicjim.supabase.co/functions/v1/request-account-deletion";
+
+  const submitBtn = document.getElementById("submitBtn");
+  const statusText = document.getElementById("statusText");
+
+  submitBtn.addEventListener("click", async function () {
+    const email = document.getElementById("email").value.trim();
+    const store = document.getElementById("store").value.trim();
+
+    statusText.style.display = "none";
+
+    if (!email || !store) {
+      statusText.textContent = "Please fill in your account email and store name.";
+      statusText.className = "status error";
+      statusText.style.display = "block";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, storeName: store }),
+      });
+
+      if (!res.ok) throw new Error("Request failed");
+
+      statusText.textContent =
+        "If that matches a MERQ account, a confirmation link has been sent to " + email + ". Check your inbox (and spam) — the link expires in 1 hour.";
+      statusText.className = "status success";
+      statusText.style.display = "block";
+      submitBtn.textContent = "Link sent";
+    } catch (err) {
+      statusText.textContent = "Something went wrong sending the request. Please try again in a moment, or email merq@prohubapps.com directly.";
+      statusText.className = "status error";
+      statusText.style.display = "block";
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send deletion confirmation link";
+    }
+  });
+</script>
 </body>
 </html>

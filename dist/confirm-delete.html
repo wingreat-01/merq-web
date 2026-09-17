@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirm Account Deletion — MERQ POS</title>
+<style>
+  :root {
+    --charcoal: #1E2126;
+    --slate: #262b31;
+    --slate-border: #363c44;
+    --amber: #FFB020;
+    --red: #e05252;
+    --green: #7fd99a;
+    --text: #f4f4f2;
+    --text-muted: #9aa1ab;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--charcoal);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wrap { max-width: 480px; width: 100%; padding: 20px; text-align: center; }
+  .brand { font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: 1px; color: var(--amber); font-size: 15px; margin-bottom: 24px; }
+  .card {
+    background: var(--slate);
+    border: 1px solid var(--slate-border);
+    border-radius: 12px;
+    padding: 32px 24px;
+  }
+  h1 { font-size: 20px; margin: 0 0 12px; }
+  p { color: var(--text-muted); font-size: 14.5px; }
+  .success h1 { color: var(--green); }
+  .error h1 { color: var(--red); }
+  a.home { color: var(--amber); text-decoration: none; font-size: 13.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">MERQ POS</div>
+  <div class="card" id="resultCard">
+    <h1 id="resultTitle">Confirming…</h1>
+    <p id="resultText">Please wait while we process your request.</p>
+  </div>
+</div>
+
+<script>
+  // Replace with your actual Supabase project's function URL.
+  const ENDPOINT = "https://uykrnoxlzlvjtazicjim.supabase.co/functions/v1/confirm-account-deletion";
+
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  const card = document.getElementById("resultCard");
+  const title = document.getElementById("resultTitle");
+  const text = document.getElementById("resultText");
+
+  function showResult(success, message) {
+    card.className = success ? "card success" : "card error";
+    title.textContent = success ? "Account deleted" : "Something went wrong";
+    text.innerHTML = message + (success ? "" : '<br><br><a class="home" href="/delete-account.html">Try again</a>');
+  }
+
+  if (!token) {
+    showResult(false, "This link is missing its confirmation token. Please use the link from your email, or request deletion again.");
+  } else {
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: token }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          showResult(false, data.error || "This link is invalid or has expired.");
+          return;
+        }
+        showResult(true, data.message);
+      })
+      .catch(() => {
+        showResult(false, "Couldn't reach the server. Please try again in a moment, or email merq@prohubapps.com.");
+      });
+  }
+</script>
+</body>
+</html>
