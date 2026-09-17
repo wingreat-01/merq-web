@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Delete Your Account — MERQ POS</title>
+<title>Delete Your Account | MERQ POS</title>
 <meta name="description" content="Request deletion of your MERQ POS account and data.">
 <style>
   :root {
@@ -86,7 +86,7 @@
 <div class="wrap">
   <div class="brand">MERQ POS</div>
   <h1>Delete your account</h1>
-  <p>Enter your account details below. We'll email a confirmation link to your account's email address — clicking it permanently deletes your account and store data. Works the same on mobile or desktop.</p>
+  <p>Enter your account details below. We'll email a confirmation link to your account's email address. Clicking it permanently deletes your account and store data. Works the same on mobile or desktop.</p>
 
   <div class="warning">
     <div>
@@ -116,7 +116,7 @@
   </form>
 
   <p class="note">
-    Submitting this sends a confirmation link to your account's email — nothing is deleted until you click it. The link expires in 1 hour. If you don't see it, check spam, or email us directly at
+    Submitting this sends a confirmation link to your account's email. Nothing is deleted until you click it. The link expires in 1 hour. If you don't see it, check spam, or email us directly at
     <a href="mailto:merq@prohubapps.com" style="color: var(--amber)">merq@prohubapps.com</a>.
   </p>
 
@@ -127,7 +127,7 @@
 
 <script>
   // Replace with your actual Supabase project's function URL.
-  const ENDPOINT = "https://uykrnoxlzlvjtazicjim.supabase.co/functions/v1/request-account-deletion";
+  const ENDPOINT = "https://YOUR_PROJECT_REF.supabase.co/functions/v1/request-account-deletion";
 
   const submitBtn = document.getElementById("submitBtn");
   const statusText = document.getElementById("statusText");
@@ -158,7 +158,7 @@
       if (!res.ok) throw new Error("Request failed");
 
       statusText.textContent =
-        "If that matches a MERQ account, a confirmation link has been sent to " + email + ". Check your inbox (and spam) — the link expires in 1 hour.";
+        "If that matches a MERQ account, a confirmation link has been sent to " + email + ". Check your inbox (and spam). The link expires in 1 hour.";
       statusText.className = "status success";
       statusText.style.display = "block";
       submitBtn.textContent = "Link sent";
