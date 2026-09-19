@@ -113627,7 +113627,7 @@ s=3
 return A.i(n.bY("product-images").Ju(l,b,B.Nd),$async$ys)
 case 3:n=n.bY("product-images")
 o=n.YY(l)
-q=n.aBO(A.dx(n.a+"/object/public/"+o,0,null).pz(0,null).glU(),null)
+q=n.aBO(A.dx(n.a+"/object/public/"+o,0,null).pz(0,null).glU(),null)+"?v="+Date.now()
 s=1
 break
 case 1:return A.p(q,r)}})
