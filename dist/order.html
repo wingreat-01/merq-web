@@ -428,7 +428,7 @@
           <button class="add" type="button">+</button>
         </div>
       `;
-      const [minusBtn, , plusBtn] = row.querySelectorAll('button');
+      const [minusBtn, plusBtn] = row.querySelectorAll('button');
       minusBtn.addEventListener('click', () => {
         const current = state.cart[product.id]?.qty || 0;
         setQty(product, current - 1);
