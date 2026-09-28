@@ -537,13 +537,16 @@
       renderMenu();
       updateCartBar();
     } catch (err) {
+      console.error('get_menu_for_qr failed:', err);
+      window.__lastMenuError = err;
       renderCenterState({
         icon: '⚠️',
         title: 'Can\u2019t load this menu',
         message:
           err.message === 'invalid_or_inactive_table'
             ? 'This QR code isn\u2019t valid, or this table isn\u2019t taking orders right now. Please ask staff for help.'
-            : 'Something went wrong loading the menu. Please try again or ask staff for help.',
+            : 'Something went wrong loading the menu. Please try again or ask staff for help.'
+              + ' [DEBUG: ' + (err.code || '') + ' ' + (err.message || err) + ' ' + (err.details || '') + ' ' + (err.hint || '') + ']',
       });
     }
   }
