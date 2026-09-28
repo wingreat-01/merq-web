@@ -15,7 +15,7 @@
 <div class="detail" id="detail"></div>
 <script type="module">
 const SUPABASE_URL='https://uykrnoxlzlvjtazicjim.supabase.co';
-const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1eXJrb3hsemx2anRhemljamltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1NjE3MDcsImV4cCI6MjEwMTEzNzcwN30.dLqbFc9NOn1fdyTlnlduz86Jl4fxw8KqSaY7Ra8MzbE';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5a3Jub3hsemx2anRhemljamltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1NjE3MDcsImV4cCI6MjEwMTEzNzcwN30.dLqbFc9NOn1fdyTlnlduz86Jl4fxw8KqSaY7Ra8MzbE';
 import{createClient}from'https://esm.sh/@supabase/supabase-js@2';const supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const $=id=>document.getElementById(id),app=$('app'),cartbar=$('cartbar'),cartbtn=$('cartbtn'),shade=$('shade'),linesEl=$('lines'),customer=$('customer'),place=$('place'),detail=$('detail');
 const state={storeName:'',tableLabel:'',products:[],cart:{},category:'All',search:'',selected:null};
