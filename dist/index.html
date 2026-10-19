@@ -1,46 +1,215 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/app/">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="MERQ Point of Sale.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="MERQ">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>MERQ</title>
-  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MERQ POS — simple, reliable point-of-sale tools for your business. Choose a plan that fits your needs.">
+  <meta name="theme-color" content="#111827">
+  <title>MERQ POS — Simple Plans, Clear Pricing</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111c2e;
+      --panel-2: #152238;
+      --text: #f3f6fb;
+      --muted: #aab7ca;
+      --line: rgba(184, 202, 226, .16);
+      --accent: #f5bd4f;
+      --accent-dark: #1d293b;
+      --green: #65d6a2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% -15%, rgba(245,189,79,.15), transparent 45%),
+        var(--bg);
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-size: 1.2rem; font-weight: 800; letter-spacing: .02em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px;
+      color: #172033; background: var(--accent); font-weight: 900;
+    }
+    .nav-link {
+      text-decoration: none; color: var(--muted); font-size: .92rem; font-weight: 650;
+    }
+    .nav-link:hover { color: var(--text); }
+    .hero { text-align: center; padding: 76px 0 40px; }
+    .eyebrow {
+      display: inline-block; padding: 6px 11px; border: 1px solid rgba(245,189,79,.35);
+      border-radius: 999px; color: var(--accent); font-size: .76rem; font-weight: 800;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    h1 { max-width: 760px; margin: 18px auto 14px; font-size: clamp(2.25rem, 5vw, 3.8rem); line-height: 1.08; letter-spacing: -.045em; }
+    .hero p { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: 1.08rem; }
+    .pricing { padding: 22px 0 78px; }
+    .section-heading { text-align: center; margin-bottom: 28px; }
+    .section-heading h2 { margin: 0 0 8px; font-size: clamp(1.55rem, 3vw, 2rem); letter-spacing: -.025em; }
+    .section-heading p { margin: 0; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+    .card {
+      position: relative; display: flex; flex-direction: column; padding: 24px 21px 22px;
+      background: linear-gradient(160deg, rgba(21,34,56,.98), rgba(15,25,42,.98));
+      border: 1px solid var(--line); border-radius: 18px; min-width: 0;
+    }
+    .card h3 { margin: 0 0 6px; font-size: 1.15rem; }
+    .summary { min-height: 42px; margin: 0; color: var(--muted); font-size: .88rem; }
+    .price { margin: 20px 0 3px; font-size: 2rem; font-weight: 850; letter-spacing: -.045em; white-space: nowrap; }
+    .price small { font-size: .85rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+    .billing-note { min-height: 20px; margin: 0 0 18px; color: var(--muted); font-size: .8rem; }
+    .features { list-style: none; margin: 0 0 24px; padding: 0; flex: 1; }
+    .features li { display: flex; gap: 9px; margin: 12px 0; color: #dce5f2; font-size: .88rem; }
+    .check { color: var(--green); font-weight: 900; flex: 0 0 auto; }
+    .button {
+      display: block; width: 100%; padding: 12px 14px; border-radius: 10px; text-align: center;
+      text-decoration: none; font-size: .9rem; font-weight: 800; border: 1px solid var(--line);
+      background: transparent; color: var(--text); transition: transform .15s ease, opacity .15s ease;
+    }
+    .button:hover { transform: translateY(-1px); opacity: .92; }
+    .button.primary { background: var(--accent); border-color: var(--accent); color: #172033; }
+    .pro { border-color: rgba(245,189,79,.62); }
+    .pro .button { background: rgba(245,189,79,.12); border-color: rgba(245,189,79,.55); color: var(--accent); }
+    .lifetime {
+      border-color: var(--accent); background:
+        radial-gradient(ellipse at 50% 0%, rgba(245,189,79,.15), transparent 52%),
+        linear-gradient(160deg, #19283e, #101a2b);
+      box-shadow: 0 0 0 1px rgba(245,189,79,.12), 0 18px 50px rgba(0,0,0,.18);
+    }
+    .ribbon {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      padding: 5px 10px; border-radius: 999px; background: var(--accent); color: #172033;
+      font-size: .68rem; font-weight: 900; letter-spacing: .08em; white-space: nowrap;
+    }
+    .lifetime .price { color: var(--accent); }
+    .lifetime .button { background: var(--accent); color: #172033; border-color: var(--accent); }
+    .fine-print { max-width: 760px; margin: 20px auto 0; text-align: center; color: var(--muted); font-size: .8rem; }
+    .bottom-cta { padding: 28px 0 58px; }
+    .cta-box {
+      padding: 30px; text-align: center; border: 1px solid var(--line); border-radius: 18px;
+      background: rgba(17,28,46,.7);
+    }
+    .cta-box h2 { margin: 0 0 8px; }
+    .cta-box p { margin: 0 0 18px; color: var(--muted); }
+    .cta-box .button { display: inline-block; width: auto; min-width: 170px; }
+    footer { padding: 22px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      .hero { padding: 55px 0 30px; }
+      .cards { grid-template-columns: 1fr; gap: 22px; }
+      .card { padding: 24px; }
+      .summary { min-height: 0; }
+      .price { font-size: 2.15rem; }
+      .nav-link { font-size: .84rem; }
+    }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#" aria-label="MERQ POS home" style="text-decoration:none">
+        <span class="brand-mark">M</span><span>MERQ <span style="color:var(--accent)">POS</span></span>
+      </a>
+      <a class="nav-link" href="#pricing">View pricing ↓</a>
+    </div>
+  </header>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js" async></script>
+  <main>
+    <section class="hero wrap">
+      <span class="eyebrow">Straightforward pricing</span>
+      <h1>A better way to manage your business.</h1>
+      <p>Choose the MERQ POS plan that fits your business today. Start with the essentials, upgrade as you grow, or pay once for Lifetime access.</p>
+    </section>
+
+    <section class="pricing wrap" id="pricing">
+      <div class="section-heading">
+        <h2>Choose your plan</h2>
+        <p>Simple options. No confusing pricing.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Starter</h3>
+          <p class="summary">The essentials for getting started.</p>
+          <div class="price">₱99<small>/month</small></div>
+          <p class="billing-note">Billed monthly</p>
+          <ul class="features">
+            <li><span class="check">✓</span><span>Core point-of-sale tools</span></li>
+            <li><span class="check">✓</span><span>Basic sales tracking</span></li>
+            <li><span class="check">✓</span><span>Manage everyday transactions</span></li>
+          </ul>
+          <a class="button" href="/app/">Get Starter</a>
+        </article>
+
+        <article class="card">
+          <h3>Basic</h3>
+          <p class="summary">More room for a growing operation.</p>
+          <div class="price">₱199<small>/month</small></div>
+          <p class="billing-note">Billed monthly</p>
+          <ul class="features">
+            <li><span class="check">✓</span><span>Everything in Starter</span></li>
+            <li><span class="check">✓</span><span>Expanded staff and product limits</span></li>
+            <li><span class="check">✓</span><span>More transaction history</span></li>
+          </ul>
+          <a class="button" href="/app/">Choose Basic</a>
+        </article>
+
+        <article class="card pro">
+          <h3>Pro</h3>
+          <p class="summary">For businesses that need the full toolkit.</p>
+          <div class="price">₱299<small>/month</small></div>
+          <p class="billing-note">Billed monthly</p>
+          <ul class="features">
+            <li><span class="check">✓</span><span>Everything in Basic</span></li>
+            <li><span class="check">✓</span><span>Unlimited staff accounts</span></li>
+            <li><span class="check">✓</span><span>Unlimited transaction history and products</span></li>
+            <li><span class="check">✓</span><span>QR ordering and priority support</span></li>
+          </ul>
+          <a class="button" href="/app/">Choose Pro</a>
+        </article>
+
+        <article class="card lifetime">
+          <span class="ribbon">PAY ONCE</span>
+          <h3>Lifetime</h3>
+          <p class="summary">One payment for long-term access.</p>
+          <div class="price">₱3,490</div>
+          <p class="billing-note">One-time payment · No monthly fees</p>
+          <ul class="features">
+            <li><span class="check">✓</span><span>Pro features, except the AI assistant</span></li>
+            <li><span class="check">✓</span><span>Pay once, no subscription renewals</span></li>
+            <li><span class="check">✓</span><span>Priority support</span></li>
+          </ul>
+          <a class="button primary" href="/app/">Get Lifetime</a>
+        </article>
+      </div>
+
+      <p class="fine-print">Plan features and access limits are subject to the plan details shown inside the MERQ POS app. Lifetime is a one-time purchase and excludes the AI assistant.</p>
+    </section>
+
+    <section class="bottom-cta wrap">
+      <div class="cta-box">
+        <h2>Ready to get started?</h2>
+        <p>Open MERQ POS to explore the app and choose your plan.</p>
+        <a class="button primary" href="/app/">Open MERQ POS</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year">2026</span> MERQ POS</span>
+      <span>Simple tools for everyday business.</span>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
